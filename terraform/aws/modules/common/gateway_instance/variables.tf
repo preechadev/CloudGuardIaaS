@@ -52,7 +52,7 @@ variable "gateway_version" {
 variable "gateway_instance_type" {
   type = string
   description = "The instance type of the Security Gateways"
-  default = "c6in.xlarge"
+  default = "c5.xlarge"
 }
 module "validate_instance_type" {
   source = "../instance_type"

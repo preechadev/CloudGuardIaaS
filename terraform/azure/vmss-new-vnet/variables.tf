@@ -114,10 +114,10 @@ variable "os_version" {
 
 locals { // locals for 'vm_os_offer' allowed values
   os_version_allowed_values = [
+    "R8040",
     "R81",
     "R8110",
     "R8120",
-    "R82"
   ]
   // will fail if [var.os_version] is invalid:
   validate_os_version_value = index(local.os_version_allowed_values, var.os_version)
@@ -129,7 +129,7 @@ variable "disk_size" {
 }
 resource "null_resource" "disk_size_validation" {
   // Will fail if var.disk_size is not 100 and the version is R81.20 or below
-  count = tonumber(var.disk_size) != 100 && contains(["R81", "R8110", "R8120"], var.os_version) ? "variable disk_size can not be changed for R81.20 and below" : 0
+  count = tonumber(var.disk_size) != 100 && contains(["R8040", "R81", "R8110", "R8120"], var.os_version) ? "variable disk_size can not be changed for R81.20 and below" : 0
 }
 variable "vm_os_sku" {
   description = "The sku of the image to be deployed."
@@ -327,16 +327,16 @@ locals { // locals for 'frontend_load_distribution' allowed values
 //********************** Scale Set variables *******************//
 
 variable "vm_os_offer" {
-  description = "The name of the offer of the image that you want to deploy.Choose from:  check-point-cg-r81, check-point-cg-r8110, check-point-cg-r8120, check-point-cg-r82"
+  description = "The name of the offer of the image that you want to deploy.Choose from: check-point-cg-r8040, check-point-cg-r81, check-point-cg-r8110, check-point-cg-r8120"
   type = string
 }
 
 locals { // locals for 'vm_os_offer' allowed values
   vm_os_offer_allowed_values = [
+    "check-point-cg-r8040",
     "check-point-cg-r81",
     "check-point-cg-r8110",
     "check-point-cg-r8120",
-    "check-point-cg-r82"
   ]
   // will fail if [var.vm_os_offer] is invalid:
   validate_os_offer_value = index(local.vm_os_offer_allowed_values, var.vm_os_offer)

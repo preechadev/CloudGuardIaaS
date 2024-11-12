@@ -137,7 +137,6 @@ resource "azurerm_storage_account" "vm-boot-diagnostics-storage" {
   account_tier = module.common.storage_account_tier
   account_replication_type = module.common.account_replication_type
   account_kind = "Storage"
-  min_tls_version = "TLS1_2"
   network_rules {
     default_action = var.add_storage_account_ip_rules ? "Deny" : "Allow"
     ip_rules = module.common.storage_account_ip_rules
@@ -203,7 +202,7 @@ resource "azurerm_virtual_machine" "single-gateway-vm-instance" {
   }
 
   os_profile {
-    computer_name = lower(var.single_gateway_name)
+    computer_name = var.single_gateway_name
     admin_username = module.common.admin_username
     admin_password = module.common.admin_password
     custom_data = templatefile("${path.module}/cloud-init.sh", {

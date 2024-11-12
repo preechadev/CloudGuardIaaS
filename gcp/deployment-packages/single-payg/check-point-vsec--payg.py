@@ -12,12 +12,14 @@ LICENSE = 'payg'
 LICENCE_TYPE = 'single'
 
 VERSIONS = {
+    'R80.40': 'r8040',
+    'R80.40-GW': 'r8040-gw',
+    'R81': 'r81',
+    'R81-GW': 'r81-gw',
     'R81.10': 'r8110',
     'R81.10-GW': 'r8110-gw',
     'R81.20': 'r8120',
-    'R81.20-GW': 'r8120-gw',
-    'R82': 'r82',
-    'R82-GW': 'r82-gw'
+    'R81.20-GW': 'r8120-gw'
 }
 
 ADDITIONAL_NETWORK = 'additionalNetwork{}'
@@ -26,18 +28,13 @@ ADDITIONAL_EXTERNAL_IP = 'externalIP{}'
 MAX_NICS = 8
 
 TEMPLATE_NAME = 'single'
-TEMPLATE_VERSION = '20240714'
+TEMPLATE_VERSION = '20231221'
 
 ATTRIBUTES = {
     'Gateway and Management (Standalone)': {
         'tags': [GATEWAY, MANAGEMENT],
         'description': 'Check Point Security Gateway and Management',
         'canIpForward': True,
-    },
-    'Management only': {
-        'tags': [MANAGEMENT],
-        'description': 'Check Point Security Management',
-        'canIpForward': False,
     },
     'Gateway only': {
         'tags': [GATEWAY],
@@ -149,7 +146,7 @@ def generate_config(context):
     prop['osVersion'] = prop['cloudguardVersion'].replace(".", "")
     prop['allowUploadDownload'] = str(prop['allowUploadDownload']).lower()
     if not prop['managementGUIClientNetwork'] and prop['installationType'] in {
-            'Gateway and Management (Standalone)', 'Management only'}:
+            'Gateway and Management (Standalone)'}:
         raise Exception('Allowed GUI clients are required when installing '
                         'a management server')
     for k in ['managementGUIClientNetwork']:
@@ -354,7 +351,7 @@ def generate_config(context):
             firewall_rules = create_firewall_rules(
                 prop, network, fw_rule_name_prefix)
             resources.extend(firewall_rules)
-    else:
+    elif MANAGEMENT in tags:
         for i in range(len(netlist)):
             network = netlist[i]
             source_ranges = prop['network_tcpSourceRanges']

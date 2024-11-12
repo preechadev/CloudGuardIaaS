@@ -5,18 +5,9 @@ locals {
   // will fail if [var.license] is invalid:
   validate_license = index(local.license_allowed_values, upper(var.license))
 
-  regex_validate_image_name = "^check-point-${lower(var.os_version)}-gw-.*[0-9]{3}-([0-9]{3,}|[a-z]+)-v[0-9]{8,}.*"
+  regex_validate_image_name = "check-point-r8[0-1][1-4]0-gw-(byol|payg)-mig-[0-9]{3}-([0-9]{3,}|[a-z]+)-v[0-9]{8,}"
   // will fail if the image name is not in the right syntax
   validate_image_name = length(regexall(local.regex_validate_image_name, var.image_name)) > 0 ? 0 : index(split("-", var.image_name), "INVALID IMAGE NAME")
-
-  version_allowed_values = [
-    "R81",
-    "R8110",
-    "R8120",
-    "R82"
-  ]
-  // Will fail if var.os_version is invalid:
-  validate_os_version = index(local.version_allowed_values, var.os_version)
 
   management_nic_allowed_values = [
     "Ephemeral Public IP (eth0)",
@@ -57,7 +48,6 @@ locals {
 
 
 
-  adminPasswordSourceMetadata = var.generate_password ? random_string.generated_password.result : ""
   disk_type_condition = var.disk_type == "SSD Persistent Disk" ? "pd-ssd" : var.disk_type == "Balanced Persistent Disk" ? "pd-balanced" : var.disk_type == "Standard Persistent Disk" ? "pd-standard" : ""
   mgmt_nic_condition = var.management_nic == "Ephemeral Public IP (eth0)" ? true : false
   mgmt_nic_ip_address_condition = local.mgmt_nic_condition ? "x-chkp-ip-address--public" : "x-chkp-ip-address--private"

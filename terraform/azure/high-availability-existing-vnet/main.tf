@@ -284,7 +284,6 @@ resource "azurerm_storage_account" "vm-boot-diagnostics-storage" {
   location = module.common.resource_group_location
   account_tier = module.common.storage_account_tier
   account_replication_type = module.common.account_replication_type
-  min_tls_version = "TLS1_2"
   network_rules {
     default_action = var.add_storage_account_ip_rules ? "Deny" : "Allow"
     ip_rules = module.common.storage_account_ip_rules
@@ -361,7 +360,7 @@ resource "azurerm_virtual_machine" "vm-instance-availability-set" {
   }
 
   os_profile {
-    computer_name = "${lower(var.cluster_name)}${count.index+1}"
+    computer_name = "${var.cluster_name}${count.index+1}"
     admin_username = module.common.admin_username
     admin_password = module.common.admin_password
     custom_data = templatefile("${path.module}/cloud-init.sh", {
@@ -455,7 +454,7 @@ resource "azurerm_virtual_machine" "vm-instance-availability-zone" {
   }
 
   os_profile {
-    computer_name = "${lower(var.cluster_name)}${count.index+1}"
+    computer_name = "${var.cluster_name}${count.index+1}"
     admin_username = module.common.admin_username
     admin_password = module.common.admin_password
     custom_data = templatefile("${path.module}/cloud-init.sh", {

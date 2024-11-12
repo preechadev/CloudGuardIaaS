@@ -1,7 +1,7 @@
 provider "aws" {
   region = var.region
-  access_key = var.access_key
-  secret_key = var.secret_key
+  # access_key = var.access_key
+  # secret_key = var.secret_key
 }
 
 module "amis" {
@@ -172,7 +172,7 @@ resource "aws_instance" "mds-instance" {
     NTPPrimary = var.primary_ntp
     NTPSecondary = var.secondary_ntp
     Shell = var.mds_admin_shell,
-    AdminSubnet = var.admin_cidr
+    AdminSubnet = "0.0.0.0/0" //var.admin_cidr
     IsPrimary = local.primary_mds
     IsSecondary = local.secondary_mds
     SICKey = local.mds_SICkey_base64,
@@ -184,9 +184,9 @@ resource "aws_instance" "mds-instance" {
 
 module "cme_iam_role" {
   source = "../cme-iam-role"
-  providers = {
-    aws = aws
-  }
+  # providers = {
+  #   aws = aws
+  # }
   count = local.create_iam_role ? 1 : 0
 
   sts_roles = var.sts_roles

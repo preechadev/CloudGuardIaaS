@@ -109,7 +109,7 @@ resource "google_compute_instance" "cluster_member" {
     sicKey = var.sic_key
     allowUploadDownload = var.allow_upload_download
     templateName = "cluster_tf"
-    templateVersion = "20230910"
+    templateVersion = "20230109"
     templateType = "terraform"
     mgmtNIC = ""
     hasInternet = "true"
@@ -126,7 +126,5 @@ resource "google_compute_instance" "cluster_member" {
     name = var.member_name
     zoneConfig = var.zone
     region = var.region
-    os_version = var.os_version
-    maintenance_mode_password_hash = var.maintenance_mode_password_hash
   })
 }
