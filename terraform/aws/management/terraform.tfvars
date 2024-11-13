@@ -1,13 +1,13 @@
 //PLEASE refer to README.md for accepted values FOR THE VARIABLES BELOW
 
 // --- VPC Network Configuration ---
-vpc_id = "vpc-12345678"
-subnet_id = "subnet-abc123"
+vpc_id = "vpc-078962521494ca0e7"
+subnet_id = "subnet-03a61cd1e90a54315"
 
 // --- EC2 Instances Configuration ---
-management_name = "CP-Management-tf"
+management_name = "New-CP-SmartEvent-tf"
 management_instance_type = "m5.xlarge"
-key_name = "publickey"
+key_name = "chkp-aws-sales-preechas-key"
 allocate_and_associate_eip = true
 volume_size = 100
 volume_encryption = "alias/aws/ebs"
@@ -26,13 +26,13 @@ sts_roles = []
 
 // --- Check Point Settings ---
 management_version = "R81.20-BYOL"
-admin_shell = "/etc/cli.sh"
+admin_shell = "/bin/bash"
 management_password_hash = ""
 management_maintenance_mode_password_hash = "" # For R81.10 and below the management_password_hash is used also as maintenance-mode password.
 // --- Security Management Server Settings ---
-management_hostname = "mgmt-tf"
-management_installation_type = "Primary management"
-SICKey = ""
+management_hostname = "smartevent-tf"
+management_installation_type = "Log Server"
+SICKey = "Checkpoint1234"
 allow_upload_download = "true"
 gateway_management = "Locally managed"
 admin_cidr = "0.0.0.0/0"
